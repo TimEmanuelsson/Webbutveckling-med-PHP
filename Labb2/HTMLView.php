@@ -3,6 +3,9 @@
 //HTML basklass
 class HTMLView {
 	public function echoHTML($body) {
+		if($body == NULL) {
+			throw new \Exception("Body not allow to be NULL!");	
+		}
 		echo "
 				<!DOCTYPE html>
 				<html>

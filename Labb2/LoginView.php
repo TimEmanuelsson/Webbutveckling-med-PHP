@@ -10,6 +10,12 @@ class LoginView {
 		$this->model = $model;
 	}
 
+	public function didUserPressRegister() {
+		if(isset($_POST['RegisterUser'])) {
+			return true;
+		}
+	}
+
 	//Sätter kakor
 	//Spara ner cookietiden i en fil
 	//Kryptera lösenordet
