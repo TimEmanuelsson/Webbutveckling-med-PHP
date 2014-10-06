@@ -44,8 +44,7 @@ class LoginController {
 			if($username != "" && $password != ""){
 				if($this->model->Checklogin($username, $password) == false){
 					$Message = "Felaktigt användarnamn och/eller lösenord";
-				}
-				else {
+				}else {
 					//Kollar om användaren vill hålla sig inloggd
 					if($this->view->Checkbox()){
 						$this->view->RememberMe();

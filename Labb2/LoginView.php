@@ -11,7 +11,7 @@ class LoginView {
 	}
 
 	public function didUserPressRegister() {
-		if(isset($_POST['RegisterUser'])) {
+		if(isset($_GET['RegisterUser'])) {
 			return true;
 		}
 	}
@@ -134,6 +134,7 @@ class LoginView {
 						<h1>Laborationskod te222ds</h1>
 						<h2>Ej inloggad</h2>
 						<form method='post'>
+							<a href='?RegisterUser'>Register User</a>
 							<fieldset>
 								<legend>Login - Skriv in användarnamn och lösenord</legend>
 								<p>$this->message</p>							
