@@ -5,6 +5,8 @@ require_once("LoginController.php");
 
 Class BaseController {
 
+	private static $operationSuccess = true;
+
 	private $RegisterController;
 	private $LoginController;
 

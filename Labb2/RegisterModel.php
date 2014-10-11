@@ -44,8 +44,8 @@ Class RegisterModel {
 		$usernameInLowercase = strtolower(trim($username));
 		$cryptedPassword = md5(trim($password));
 
-		$User = $usernameInLowercase .",". $cryptedPassword . " \n ";
+		$User = $usernameInLowercase.",".$cryptedPassword."\n";
 
-		file_put_contents('Users.txt', $User , FILE_APPEND);
+		file_put_contents('Users.txt',$User, FILE_APPEND);
 	}
 }

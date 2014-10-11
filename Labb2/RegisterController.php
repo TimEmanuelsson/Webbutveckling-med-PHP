@@ -28,6 +28,7 @@ Class RegisterController {
 					if($this->model->CheckRegister($username)) {
 						$this->model->RegisterUser($username, $password1);
 						$message = "Registreringen lyckades!";
+						return true;
 					}else {
 						$message = "Användarnamnet finns redan registrerat.";
 					}
