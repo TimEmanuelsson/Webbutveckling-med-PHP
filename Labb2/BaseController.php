@@ -17,7 +17,11 @@ Class BaseController {
 
 	public function CheckWhereUserIs() {
 		if($this->LoginController->didUserPressRegister()) {
-			return $this->RegisterController->doRegister();
+			$result = $this->RegisterController->doRegister();
+			if($result === self::$operationSuccess) {
+				return $this->LoginController->doLogin(self::$operationSuccess);
+			}
+			return $result;
 		}else {
 			return $this->LoginController->doLogin();
 		}

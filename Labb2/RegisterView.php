@@ -5,6 +5,7 @@ Class RegisterView {
 	private $umessage;
 	private $pmessage;
 	private $Uvalue;
+	private $Register = 'Register';
 	private $regex = "/^[\ws*åäöÅÄÖ][^0-9]/";
 
 	public function __construct(RegisterModel $model) {
@@ -30,7 +31,7 @@ Class RegisterView {
 	}
 
 	public function didUserPressRegister() {
-		if(isset($_POST['Register'])){
+		if(isset($_POST[$this->Register])){
 			if($this->CheckInput()) {
 				return true;
 			}
@@ -84,7 +85,7 @@ Class RegisterView {
 								<label>Upprepa lösenord  :</label>
 								<input type=password size=20 name='password2' id='PasswordID' value=''>
 								<br>
-								<input type=submit name='Register' value='Registrera'>
+								<input type=submit name='$this->Register' value='Registrera'>
 							</fieldset>
 						</form>
 						<p>$Todaytime</p>";

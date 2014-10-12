@@ -1,15 +1,18 @@
 <?php
 
+require_once("RegisterModel.php");
 require_once("LoginModel.php");
 require_once("LoginView.php");
 
 class LoginController {
 	private $view;
 	private $model;
+	private $RegisterModel;
 
 	public function __construct() {
 		$this->model = new LoginModel();
-		$this->view = new LoginView($this->model);
+		$this->RegisterModel = new RegisterModel();
+		$this->view = new LoginView($this->model, $this->RegisterModel);
 	}
 
 	public function didUserPressRegister() {
@@ -19,8 +22,13 @@ class LoginController {
 	}
 
 	//Kollar om användaren vill logga in
-	public function doLogin() {
+	public function doLogin($operationSuccess = FALSE) {
 		$Message = "";
+
+		if($operationSuccess)
+		{
+			$Message = "Registreringen lyckades!";
+		}
 
 		//Inloggning via cookies
 		if($this->model->loginstatus() == false){

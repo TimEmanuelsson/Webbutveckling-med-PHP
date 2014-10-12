@@ -2,17 +2,21 @@
 
 class LoginView {
 	private $model;
+	private $RegisterModel;
 	private $message;
 	private $Uvalue = "";
 	private $Pvalue = "";
 
-	public function __construct(LoginModel $model) {
+	public function __construct(LoginModel $model, RegisterModel $RegisterModel) {
 		$this->model = $model;
+		$this->RegisterModel = $RegisterModel;
 	}
 
 	public function didUserPressRegister() {
 		if(isset($_GET['RegisterUser'])) {
 			return true;
+		}else {
+			return false;
 		}
 	}
 
@@ -75,6 +79,9 @@ class LoginView {
 	//Sätter användanamnet till value på inmatningssträngen
 	public function didUserPressLogin(){
 		if(isset($_POST['Login'])){
+			if($this->RegisterModel->getSession() == true) {
+				$this->RegisterModel->DestroSession();
+			}
 			if(($_POST["username"]) == ""){
 				$this->message = "Användarnamn saknas!";
 			}
@@ -113,6 +120,10 @@ class LoginView {
 	//Skriver ut HTMLkod efter om användaren är inloggad eller inte.
 	public function HTMLPage($Message){
 		$ret = "";
+
+		if($this->RegisterModel->getSession() == true) {
+			$this->Uvalue = $this->RegisterModel->getSession();
+		}
 
 		setlocale(LC_ALL, 'swedish');
 		date_default_timezone_set('Europe/Stockholm');
