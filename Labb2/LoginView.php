@@ -144,7 +144,7 @@ class LoginView {
 					$ret = "
 						<h1>Laborationskod te222ds</h1>
 						<h2>Ej inloggad</h2>
-						<form method='post'>
+						<form action='?' method='post'>
 							<a href='?RegisterUser'>Register User</a>
 							<fieldset>
 								<legend>Login - Skriv in användarnamn och lösenord</legend>
