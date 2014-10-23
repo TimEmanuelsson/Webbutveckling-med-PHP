@@ -17,19 +17,14 @@ Class NavigationController {
 
 			switch (NavigationView::getAction()) {
 
-				case NavigationView::$actionLogin:
-					$controller = new LoginController();
-					$result = $controller->doLogin();
-					return $result;
-
-					break;
-
 				case NavigationView::$actionRegister:
 					$controller = new RegisterController();
 					$result = $controller->doRegister();
 					if($result === self::$operationSuccess) {
-						$controller = new LoginController();
-						return $controller->doLogin(self::$operationSuccess);
+						$loginController = new LoginController();
+						$loginPage = $loginController->doLogin();
+						$controller = new NewsController();
+						return $controller->doNews($loginPage, self::$operationSuccess);
 					}
 					return $result;
 
@@ -37,8 +32,10 @@ Class NavigationController {
 
 				case NavigationView::$actionNews:
 				default:
+					$loginController = new LoginController();
+					$loginPage = $loginController->doLogin();
 					$controller = new NewsController();
-					$result = $controller->doNews();
+					$result = $controller->doNews($loginPage);
 					return $result;
 
 					break;

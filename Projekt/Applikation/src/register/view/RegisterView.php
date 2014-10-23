@@ -7,7 +7,7 @@ Class RegisterView {
 	private $Uvalue;
 	private $regex = "/^[\ws*åäöÅÄÖ][^0-9]/";
 
-	public function __construct(RegisterModel $model) {
+	public function __construct(RegisterRepository $model) {
 		$this->model = $model;
 	}
 
@@ -69,7 +69,7 @@ Class RegisterView {
 						<h1>Laborationskod te222ds</h1>
 						<h2>Ej inloggad</h2>
 						<form method='post'>
-							<a href='?login'>Tillbaka</a>
+							<a href='?'>Tillbaka</a>
 							<fieldset>
 								<legend>Registrering - Välj användarnamn och lösenord</legend>
 								<p>$message</p>

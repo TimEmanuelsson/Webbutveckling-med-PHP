@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 require_once('src/navigation/controller/NavigationController.php');
 require_once('src/navigation/view/HTMLView.php');
 

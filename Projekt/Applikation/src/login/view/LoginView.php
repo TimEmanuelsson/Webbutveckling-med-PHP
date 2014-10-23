@@ -6,7 +6,7 @@ class LoginView {
 	private $Uvalue = "";
 	private $Pvalue = "";
 
-	public function __construct(LoginModel $model) {
+	public function __construct(LoginRepository $model) {
 		$this->model = $model;
 	}
 
@@ -116,28 +116,22 @@ class LoginView {
 	public function HTMLPage($Message){
 		$ret = "";
 
-		setlocale(LC_ALL, 'swedish');
-		date_default_timezone_set('Europe/Stockholm');
-		$Todaytime = ucwords(strftime("%A,den %d %B år %Y. Klockan är [%H:%M:%S]."));	
+		$sessionUsername = $this->model->getSession();
 
 		if($this->model->loginstatus()){
-			$ret = "<h1>Laborationskod te222ds</h1>
-					<h2>Admin är inloggad</h2>
+
+			$ret = "<h2>" . $sessionUsername . " är inloggad</h2>
 			 		<p>$this->message</p>
 			 		<p>$Message</p>
 					<form method ='post'>
 						<input type=submit name='Logout' value='Logga ut'>
-					</form>
-					<p>$Todaytime</p>";
+					</form>";
 		}
 		
 			if($this->model->loginstatus() == false) {
 					$ret = "
-						<h1>Laborationskod te222ds</h1>
-						<h2>Ej inloggad</h2>
-						<form action='?login' method='post'>
+						<form action='?' method='post'>
 							<a href='?registerUser'>Register User</a>
-							<a href='?'>Tillbaka</a>
 							<fieldset>
 								<legend>Login - Skriv in användarnamn och lösenord</legend>
 								<p>$this->message</p>							
@@ -150,8 +144,7 @@ class LoginView {
 								<input type=checkbox name='checkbox'>
 								<input type=submit name='Login' value='Logga in'>
 							</fieldset>
-						</form>
-						<p>$Todaytime</p>";	
+						</form>";	
 			}	
 		return $ret;
 		

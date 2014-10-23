@@ -1,6 +1,6 @@
 <?php
 
-require_once("./src/register/model/RegisterModel.php");
+require_once("./src/register/model/RegisterRepository.php");
 require_once("./src/register/view/RegisterView.php");
 
 Class RegisterController {
@@ -10,7 +10,7 @@ Class RegisterController {
 	private $regex = "/^[\ws*åäöÅÄÖ][^0-9]/";
 
 	public function __construct() {
-		$this->model = new RegisterModel();
+		$this->model = new RegisterRepository();
 		$this->view = new RegisterView($this->model);
 	}
 
@@ -25,8 +25,7 @@ Class RegisterController {
 			//Ful lösning, ändra i didUserPressRegister!!!!
 			if(strlen($_POST["password1"]) > 5 && strlen($_POST["password2"]) > 5 && strlen($_POST["username"]) > 2 && $_POST["password1"] == $_POST["password2"]) {
 				if(preg_match($this->regex, $username)) {
-					if($this->model->CheckRegister($username)) {
-						$this->model->RegisterUser($username, $password1);
+					if($this->model->addUser($username, $password1)) {
 						$message = "Registreringen lyckades!";
 						return true;
 					}else {

@@ -2,50 +2,115 @@
 
 require_once('./src/news/view/NewsView.php');
 require_once('./src/news/view/AllNewsView.php');
-require_once('./src/news/model/SportModel.php');
-require_once('./src/news/model/AllNewsModel.php');
-require_once('./src/news/model/PleasureModel.php');
+require_once('./src/news/model/FlowRepository.php');
+require_once('./src/news/model/UserFlowRepository.php');
+require_once('./src/login/model/LoginRepository.php');
 
 Class NewsController {
 
 	private $News = '';
+	private $FlowTypeID;
+	private $checkUserFlow;
 
-	public function doNews() {
+	private $view;
+	private $loginmodel;
+	private $userflowmodel;
+	private $flowModel;
+
+	public function __construct() {
+		$this->view = new AllNewsView();
+		$this->loginmodel = new LoginRepository();
+		$this->userflowmodel = new UserFlowRepository();
+		$this->flowModel = new FlowRepository();
+	}
+
+	public function doNews($loginPage, $operationSuccess = FALSE) {
+		$Message = '';
+
 
 		 try {
 
+		 	if($operationSuccess)
+			{
+				$Message = "Registreringen lyckades!";
+			}
+
 		 	switch (NewsView::getAction()) {
 
+		 		case NewsView::$actionStopFollow:
+			 		$currentAction = $this->checkAction();
+			 		//TODO:SLUTA FÖLJA
+			 		//TODO: Skapa funktion i UserFlowRepository för att ta bort följningen.
+
+
+
+		 		case NewsView::$actionFollow:
+		 			if($this->view->getSportID()) {
+		 				$currentAction = $this->view->getSportID();
+		 				$this->News = "Sport";
+		 			} else {
+		 				$currentAction = $this->view->getPleasureID();
+		 				$this->News = "Nöje";
+		 			}
+		 			
+		 			$userID = $this->loginmodel->getUserID();
+
+		 			$this->userflowmodel->addUserFlow($userID, $currentAction);
+		 			$List = $this->flowModel->getFlowWithTypeID($currentAction);
+
+		 			if($this->loginmodel->loginstatus()) {
+			 			$this->checkUserFlow = $this->checkUserFlow($userID, $currentAction);
+		 			}
+
+					$result = $this->view->showAllNews($List, $this->News, $loginPage, $Message, $this->checkUserFlow);
+					return $result;
+
+		 			break;
+
 		 		case NewsView::$actionSport:
-		 			$model = new SportModel();
-		 			$SportList = $model->getSportList();
+		 			$userID = $this->loginmodel->getUserID();
+		 			$currentAction = $this->view->getSportID();
+
+		 			if($this->loginmodel->loginstatus()) {
+			 			$this->checkUserFlow = $this->checkUserFlow($userID, $currentAction);
+		 			}
+		 			$this->FlowTypeID = $this->view->getSportID();
+		 			$SportList = $this->flowModel->getFlowWithTypeID($this->FlowTypeID);
 		 			$this->News = "Sport";
-		 			//TODO: Skicka med en lista med sportnyheter
-		 			$view = new AllNewsView();
-					$result = $view->showAllNews($SportList, $this->News);
+					$result = $this->view->showAllNews($SportList, $this->News, $loginPage, $Message, $this->checkUserFlow);
 					return $result;
 
 		 			break;
 
 		 		case NewsView::$actionPleasure:
-		 			$model = new PleasureModel();
-		 			$PleasureList = $model->getPleasureList();
+		 			$userID = $this->loginmodel->getUserID();
+		 			$currentAction = $this->view->getPleasureID();
+		 			
+		 			if($this->loginmodel->loginstatus()) {
+			 			$this->checkUserFlow = $this->checkUserFlow($userID, $currentAction);
+		 			}
+		 			$this->FlowTypeID = $this->view->getPleasureID();
+		 			$PleasureList = $this->flowModel->getFlowWithTypeID($this->FlowTypeID);
 		 			$this->News = "Nöje";
-		 		//TODO: Skicka med en lista med ekonominyheter
-		 			$view = new AllNewsView();
-					$result = $view->showAllNews($PleasureList, $this->News);
+					$result = $this->view->showAllNews($PleasureList, $this->News, $loginPage, $Message, $this->checkUserFlow);
 					return $result;
 
-		 			break;	
+		 			break;
+
+		 			case NewsView::$actionUserFlow:
+		 			$userID = $this->loginmodel->getUserID();
+		 			$UserFlowList = $this->userflowmodel->getFlowWithUserID($userID);
+		 			$this->News = "UserFlow";
+					$result = $this->view->showAllNews($UserFlowList, $this->News, $loginPage, $Message);
+					return $result;
+
+		 			break;
 
 		 		case NewsView::$actionNews:
 				default:
-					$model = new AllNewsModel();
-		 			$AllNewsList = $model->getAllNewsList();
+		 			$AllNewsList = $this->flowModel->getAllFlow();
 		 			$this->News = "Alla Nyheter";
-					//TODO: Skicka med en lista med alla nyheter
-					$view = new AllNewsView();
-					$result = $view->showAllNews($AllNewsList, $this->News);
+					$result = $this->view->showAllNews($AllNewsList, $this->News, $loginPage, $Message);
 					return $result;
 
 					break;
@@ -54,5 +119,25 @@ Class NewsController {
 		 } catch(Exception $e) {
 		 	die($e->getMessage());
 		 }
+	}
+
+	public function checkUserFlow($userID, $currentAction) {
+		if($this->userflowmodel->checkUserFlow($userID, $currentAction)) {
+			return $this->checkUserFlow = true;
+
+		} else {
+			return $this->checkUserFlow = false;
+		}
+	}
+
+	public function checkAction() {
+		if($this->view->getSportID()) {
+			$this->News = "Sport";
+			return $currentAction = $this->view->getSportID();
+		} else {
+			$this->News = "Nöje";
+			return $currentAction = $this->view->getPleasureID();
+		}
+
 	}
 }

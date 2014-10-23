@@ -1,6 +1,6 @@
 <?php
 
-require_once("./src/login/model/LoginModel.php");
+require_once("./src/login/model/LoginRepository.php");
 require_once("./src/login/view/LoginView.php");
 
 class LoginController {
@@ -8,7 +8,7 @@ class LoginController {
 	private $model;
 
 	public function __construct() {
-		$this->model = new LoginModel();
+		$this->model = new LoginRepository();
 		$this->view = new LoginView($this->model);
 	}
 
@@ -23,16 +23,12 @@ class LoginController {
 	//Kollar om användaren vill logga in
 	public function doLogin($operationSuccess = FALSE) {
 		$Message = "";
-
-		if($operationSuccess)
-		{
-			$Message = "Registreringen lyckades!";
-		}
-
+		
 		//Inloggning via cookies
 		if($this->model->loginstatus() == false){
 			if($this->view->isRemembered()){
-				if($this->model->CheckloginWithCookie($this->view->getCookieUsername(), $this->view->getCookiePassword())){
+				$cookie = true;
+				if($this->model->checkUser($this->view->getCookieUsername(), $this->view->getCookiePassword(), $cookie)){
 					$Message = "Inloggning lyckades via cookies!";
 				}else{
 					$this->view->removeCookie();
@@ -49,7 +45,7 @@ class LoginController {
 		//Kollar så att det är rätt användarnamn och lösenord. Om inte, skicka felmeddelande.
 		if($this->view->didUserPressLogin()){
 			if($username != "" && $password != ""){
-				if($this->model->Checklogin($username, $password) == false){
+				if($this->model->checkUser($username, $password) == false){
 					$Message = "Felaktigt användarnamn och/eller lösenord";
 				}else {
 					//Kollar om användaren vill hålla sig inloggd
