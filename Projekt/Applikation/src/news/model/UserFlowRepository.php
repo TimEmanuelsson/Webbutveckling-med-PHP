@@ -5,7 +5,7 @@ require_once('./src/navigation/model/Repository.php');
 Class UserFlowRepository extends Repository {
 
 	private $id = 'userID';
-	private $flowTypeID = 'flowTypeID';
+	private $flowTypeID = 'flowtypeID';
 	private $dbTable = 'userflow';
 	
 	public function getFlowWithUserID($id)
