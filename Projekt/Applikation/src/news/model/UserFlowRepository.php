@@ -95,4 +95,26 @@ Class UserFlowRepository extends Repository {
 		
 	}
 
+	public function deleteUserFlow($userID, $flowTypeID)
+	{
+		try
+		{
+			$db = $this -> connection();
+
+			$sql = "DELETE FROM " . $this->dbTable . " WHERE " . $this->id . "=:" . $this->id . "
+				 AND " . $this->flowTypeID . "=:" . $this->flowTypeID . "";
+			
+			$query = $db -> prepare($sql);
+
+			$query->bindParam($this->id, $userID, PDO::PARAM_STR);
+        	$query->bindParam($this->flowTypeID, $flowTypeID, PDO::PARAM_STR);
+
+			$query -> execute();
+		}
+		catch (PDOException $e)
+		{
+			throw new Exception($e->getMessage());
+		}
+	}
+
 }

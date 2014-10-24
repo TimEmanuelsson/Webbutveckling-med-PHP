@@ -40,7 +40,7 @@ Class AllNewsView {
  		}
 
  		if($currentAction == 'follow') {
- 			$currentAction = '?';
+ 			$currentAction = '';
  		}
 
  		if($this->loginModel->loginstatus()) {

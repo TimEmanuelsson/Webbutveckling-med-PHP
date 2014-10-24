@@ -39,10 +39,17 @@ Class NewsController {
 
 		 		case NewsView::$actionStopFollow:
 			 		$currentAction = $this->checkAction();
+			 		$userID = $this->loginmodel->getUserID();
+			 		$this->userflowmodel->deleteUserFlow($userID, $currentAction);
+			 		
+			 		$AllNewsList = $this->flowModel->getAllFlow();
+		 			$this->News = "Alla Nyheter";
+					$result = $this->view->showAllNews($AllNewsList, $this->News, $loginPage, $Message);
+					return $result;
 			 		//TODO:SLUTA FÖLJA
 			 		//TODO: Skapa funktion i UserFlowRepository för att ta bort följningen.
 
-
+			 		break;
 
 		 		case NewsView::$actionFollow:
 		 			if($this->view->getSportID()) {
