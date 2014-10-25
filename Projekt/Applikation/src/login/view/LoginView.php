@@ -121,16 +121,18 @@ class LoginView {
 		if($this->model->loginstatus()){
 
 			$ret = "<h2>" . $sessionUsername . " är inloggad</h2>
-			 		<p>$this->message</p>
-			 		<p>$Message</p>
-					<form method ='post'>
-						<input type=submit name='Logout' value='Logga ut'>
+					<div id='login'>
+				 		<p>$this->message</p>
+				 		<p>$Message</p>
+				 	</div>
+					<form id='login' method ='post'>
+						<input id='login' type=submit name='Logout' value='Logga ut'>
 					</form>";
 		}
 		
 			if($this->model->loginstatus() == false) {
 					$ret = "
-						<form action='?' method='post'>
+						<form id='login' action='?' method='post'>
 							<a href='?registerUser'>Register User</a>
 							<fieldset>
 								<legend>Login - Skriv in användarnamn och lösenord</legend>

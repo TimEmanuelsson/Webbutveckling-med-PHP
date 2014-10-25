@@ -12,6 +12,7 @@ class HTMLView {
 					<html>
 					<head>
 						<meta charset='UTF-8'>
+						<link href='./src/navigation/view/projekt.css' rel='stylesheet' type='text/css'>
 						<title>RSS-flöde</title>
 					</head>
 					<body>

@@ -7,7 +7,7 @@ Class FlowRepository extends Repository {
 
 	private $id = 'ID';
 	private $url = 'url';
-	private $flowTypeID = 'flowTypeID';
+	private $flowTypeID = 'flowtypeID';
 	private $dbTable = 'flow';
 
 	public function getAllFlow() {
@@ -24,14 +24,6 @@ Class FlowRepository extends Repository {
 			foreach($result as $url) {
 				$urlxml = simplexml_load_file($url['url'], 'SimpleXMLElement', LIBXML_NOCDATA);
 				$allFlow[] = $urlxml;
-
-				/*
-				foreach ($allFlow as $flow) {
-					var_dump($flow->title);
-					$article = new News($flow->title, $flow->link, $flow->description, $flow->pubDate);
-					$allFlowArticle[] = $article;
-				}
-				*/
 			}
 			
 			return $allFlow;
@@ -40,12 +32,6 @@ Class FlowRepository extends Repository {
 			throw new Exception($e->getMessage());
 		}
 	}
-
-	/*
-	function cmp($a, $b){ 
-    	return strcmp($b['db'], $a['db']); 
-	}
-	*/
 
 	public function getFlowWithTypeID($id)
 	{

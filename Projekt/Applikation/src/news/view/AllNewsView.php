@@ -48,9 +48,9 @@ Class AllNewsView {
 
 			if($news == 'Sport' || $news == 'Nöje') {
 				if(!$checkUserFlow) {
-					$contentString .= "</br><a href='?" . $currentAction . "=". $flowID . "&follow'>Följ</a>";
+					$contentString .= "</br><a id='follow' href='?" . $currentAction . "=". $flowID . "&follow'>Följ</a>";
 				} else {
-					$contentString .= "</br><a href='?" . $currentAction . "=". $flowID . "&stopfollow'>Sluta följ</a>";
+					$contentString .= "</br><a id='follow' href='?" . $currentAction . "=". $flowID . "&stopfollow'>Sluta följ</a>";
 				}
 			}
 		}
@@ -59,11 +59,10 @@ Class AllNewsView {
 			foreach ($NewsList as $flow) {
 				foreach ($flow->channel->item as $item) {
 
-				$contentString  .= "<ul>
+				$contentString  .= "<ul id='article'>
 				<a href='" . $item->link . "'><h2>" . $item->title . "</h2></a>
 				<p><b>" . $item->description . "</b></p>
 				<p>" . $item->pubDate . "</p>
-				<p>-----------------------------------------------------------------------------------------</p>
 
 				</ul>";
 				}
@@ -76,10 +75,12 @@ Class AllNewsView {
 				<h1>$Message</h1>
 				$loginPage </br>
 				<h1>" . $news . "</h1>
-				<a href='?'>Visa alla nyheter</a>
-				<a href='?sport=1'>Visa sportnyheter</a>
-				<a href='?pleasure=2'>Visa nöjesNyheter</a>
-				$showYourFlow
+				<div id='meny'>
+					<a href='?'>Visa alla nyheter</a>
+					<a href='?sport=1'>Visa sportnyheter</a>
+					<a href='?pleasure=2'>Visa nöjesNyheter</a>
+					$showYourFlow
+				</div>
 				$contentString
 		";
 	

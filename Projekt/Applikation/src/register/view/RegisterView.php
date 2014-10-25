@@ -68,7 +68,7 @@ Class RegisterView {
 		$ret = "
 						<h1>Laborationskod te222ds</h1>
 						<h2>Ej inloggad</h2>
-						<form method='post'>
+						<form id='login' method='post'>
 							<a href='?'>Tillbaka</a>
 							<fieldset>
 								<legend>Registrering - Välj användarnamn och lösenord</legend>
@@ -87,7 +87,7 @@ Class RegisterView {
 								<input type=submit name='Register' value='Registrera'>
 							</fieldset>
 						</form>
-						<p>$Todaytime</p>";
+						<p id='meny'>$Todaytime</p>";
 
 		return $ret;
 	}
