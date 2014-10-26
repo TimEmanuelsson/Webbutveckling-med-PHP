@@ -1,7 +1,6 @@
 <?php
 
 require_once('./src/navigation/model/Repository.php');
-require_once('News.php');
 
 Class FlowRepository extends Repository {
 
