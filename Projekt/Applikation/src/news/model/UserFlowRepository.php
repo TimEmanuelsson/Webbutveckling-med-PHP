@@ -19,9 +19,9 @@ Class UserFlowRepository extends Repository {
 					  INNER JOIN user AS u
 					    ON uf.userID = u.ID
 					  INNER JOIN flowType AS ft
-					    ON uf.flowTypeID = ft.ID
+					    ON uf.flowtypeID = ft.ID
 					  INNER JOIN flow as f
-					  	on f.flowTypeID = ft.ID
+					  	on f.flowtypeID = ft.ID
 					    WHERE u.ID = ?';
 
 			$params = array($id);

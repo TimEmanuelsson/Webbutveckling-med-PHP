@@ -11,6 +11,10 @@ Class NewsController {
 	private $News = '';
 	private $FlowTypeID;
 	private $checkUserFlow;
+	private $sport = 'Sport';
+	private $Pleasure = 'Nöje';
+	private $allnews = 'Alla nyheter';
+	private $userFlow = 'Userflow';
 
 	private $view;
 	private $loginmodel;
@@ -43,33 +47,21 @@ Class NewsController {
 			 		$this->userflowmodel->deleteUserFlow($userID, $currentAction);
 			 		
 			 		$AllNewsList = $this->flowModel->getAllFlow();
-		 			$this->News = "Alla Nyheter";
+		 			$this->News = $this->allnews;
 					$result = $this->view->showAllNews($AllNewsList, $this->News, $loginPage, $Message);
 					return $result;
-			 		//TODO:SLUTA FÖLJA
-			 		//TODO: Skapa funktion i UserFlowRepository för att ta bort följningen.
 
 			 		break;
 
 		 		case NewsView::$actionFollow:
-		 			if($this->view->getSportID()) {
-		 				$currentAction = $this->view->getSportID();
-		 				$this->News = "Sport";
-		 			} else {
-		 				$currentAction = $this->view->getPleasureID();
-		 				$this->News = "Nöje";
-		 			}
-		 			
+		 			$currentAction = $this->checkAction();
 		 			$userID = $this->loginmodel->getUserID();
 
 		 			$this->userflowmodel->addUserFlow($userID, $currentAction);
-		 			$List = $this->flowModel->getFlowWithTypeID($currentAction);
 
-		 			if($this->loginmodel->loginstatus()) {
-			 			$this->checkUserFlow = $this->checkUserFlow($userID, $currentAction);
-		 			}
-
-					$result = $this->view->showAllNews($List, $this->News, $loginPage, $Message, $this->checkUserFlow);
+		 			$UserFlowList = $this->userflowmodel->getFlowWithUserID($userID);
+		 			$this->News = $this->userFlow;
+					$result = $this->view->showAllNews($UserFlowList, $this->News, $loginPage, $Message);
 					return $result;
 
 		 			break;
@@ -83,7 +75,7 @@ Class NewsController {
 		 			}
 		 			$this->FlowTypeID = $this->view->getSportID();
 		 			$SportList = $this->flowModel->getFlowWithTypeID($this->FlowTypeID);
-		 			$this->News = "Sport";
+		 			$this->News = $this->sport;
 					$result = $this->view->showAllNews($SportList, $this->News, $loginPage, $Message, $this->checkUserFlow);
 					return $result;
 
@@ -98,7 +90,7 @@ Class NewsController {
 		 			}
 		 			$this->FlowTypeID = $this->view->getPleasureID();
 		 			$PleasureList = $this->flowModel->getFlowWithTypeID($this->FlowTypeID);
-		 			$this->News = "Nöje";
+		 			$this->News = $this->Pleasure;
 					$result = $this->view->showAllNews($PleasureList, $this->News, $loginPage, $Message, $this->checkUserFlow);
 					return $result;
 
@@ -107,7 +99,7 @@ Class NewsController {
 		 			case NewsView::$actionUserFlow:
 		 			$userID = $this->loginmodel->getUserID();
 		 			$UserFlowList = $this->userflowmodel->getFlowWithUserID($userID);
-		 			$this->News = "UserFlow";
+		 			$this->News = $this->userFlow;
 					$result = $this->view->showAllNews($UserFlowList, $this->News, $loginPage, $Message);
 					return $result;
 
@@ -116,7 +108,7 @@ Class NewsController {
 		 		case NewsView::$actionNews:
 				default:
 		 			$AllNewsList = $this->flowModel->getAllFlow();
-		 			$this->News = "Alla Nyheter";
+		 			$this->News = $this->allnews;
 					$result = $this->view->showAllNews($AllNewsList, $this->News, $loginPage, $Message);
 					return $result;
 
@@ -139,10 +131,10 @@ Class NewsController {
 
 	public function checkAction() {
 		if($this->view->getSportID()) {
-			$this->News = "Sport";
+			$this->News = $this->sport;
 			return $currentAction = $this->view->getSportID();
 		} else {
-			$this->News = "Nöje";
+			$this->News = $this->Pleasure;
 			return $currentAction = $this->view->getPleasureID();
 		}
 

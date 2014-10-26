@@ -1,5 +1,7 @@
 <?php
 
+//Basklass för anslutning.
+//Just nu inställt på lokalt.
 abstract class Repository {
 	protected $dbUsername = 'root';
 	protected $dbPassword = '';

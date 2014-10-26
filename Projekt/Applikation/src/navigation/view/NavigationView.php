@@ -1,5 +1,6 @@
 <?php
 
+//Requesta för att se var användaren befinner sig.
 Class NavigationView {
 
 	public static $actionNews = 'news';

@@ -6,17 +6,10 @@ class LoginView {
 	private $Uvalue = "";
 	private $Pvalue = "";
 
+	//Konstruktorn skapar en LoginRepository.
 	public function __construct(LoginRepository $model) {
 		$this->model = $model;
 	}
-
-	/*
-	public function didUserPressRegister() {
-		if(isset($_GET['RegisterUser'])) {
-			return true;
-		}
-	}
-	*/
 
 	//Sätter kakor
 	//Spara ner cookietiden i en fil
@@ -113,6 +106,7 @@ class LoginView {
 	}
 
 	//Skriver ut HTMLkod efter om användaren är inloggad eller inte.
+	//Ret retunera HTML kod.
 	public function HTMLPage($Message){
 		$ret = "";
 

@@ -2,6 +2,7 @@
 
 require_once('./src/navigation/model/Repository.php');
 
+//Ärver från Repository som innehåller anslutningen.
 Class RegisterRepository extends Repository {
 
 	private $id = 'ID';
@@ -10,6 +11,8 @@ Class RegisterRepository extends Repository {
 
 	private $dbTable = 'user';
 
+	//Lägger till en användare.
+	//Om användarnamnet redan finns retuneras falskt.
 	public function addUser($username, $password) {
 		try {
 			$username = strtolower($username);
@@ -38,7 +41,7 @@ Class RegisterRepository extends Repository {
 			}
 
 		} catch (PDOException $e) {
-			throw new Exception($e->getMessage());
+			throw new Exception('Något gick fel när en användare skulle läggas till!');
 		}
 	}
 }

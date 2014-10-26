@@ -9,12 +9,16 @@ require_once('./src/register/controller/RegisterController.php');
 
 Class NavigationController {
 
+	//När användaren har registrerats så sätts operationSuccess till true
+	//för att skicka användaren till startsidan rättmeddelande.
 	private static $operationSuccess = true;
 
 	public function doNavigation() {
 		
 		try {
 
+			//Switch sats som kollar om användaren vill registrera ny användare eller kolla nyheter.
+			//Default är se nyheter.
 			switch (NavigationView::getAction()) {
 
 				case NavigationView::$actionRegister:
@@ -42,7 +46,7 @@ Class NavigationController {
 			}
 
 		} catch(Exception $e) {
-			die($e->getMessage());
+			throw new Exception('Något gick fel när sidan skulle laddas!');
 		}
 	}
 }

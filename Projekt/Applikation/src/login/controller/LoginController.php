@@ -7,18 +7,11 @@ class LoginController {
 	private $view;
 	private $model;
 
+	//Konstruktorn skapar LoginRepository och Loginview.
 	public function __construct() {
 		$this->model = new LoginRepository();
 		$this->view = new LoginView($this->model);
 	}
-
-	/*
-	public function didUserPressRegister() {
-		if($this->view->didUserPressRegister() == true) {
-			return true;
-		}
-	}
-	*/
 
 	//Kollar om användaren vill logga in
 	public function doLogin($operationSuccess = FALSE) {

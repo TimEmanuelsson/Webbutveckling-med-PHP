@@ -26,6 +26,12 @@ Class AllNewsView {
 			}
 		}
 
+		public function getLastFollow() {
+			if(isset($_GET['lastfollow'])) {
+				return $_GET['lastfollow'];
+			}
+		}
+
 	public function showAllNews($NewsList, $news, $loginPage, $Message, $checkUserFlow = false) {
 
 		$contentString = '';
@@ -37,10 +43,6 @@ Class AllNewsView {
  				$flowID = $this->getSportID();
  			} else {
  				$flowID = $this->getPleasureID();
- 		}
-
- 		if($currentAction == 'follow') {
- 			$currentAction = '';
  		}
 
  		if($this->loginModel->loginstatus()) {

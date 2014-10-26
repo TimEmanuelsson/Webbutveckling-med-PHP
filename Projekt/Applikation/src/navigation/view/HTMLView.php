@@ -1,6 +1,6 @@
 <?php
 
-
+//HTML basklass som retunera html struktur och få in body som är html kod.
 class HTMLView {
 	public function echoHTML($body) {
 		if($body == NULL){
